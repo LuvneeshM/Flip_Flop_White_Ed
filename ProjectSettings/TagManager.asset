@@ -6,6 +6,7 @@ TagManager:
   tags:
   - sqaure
   - triangle
+  - diamond
   layers:
   - Default
   - TransparentFX

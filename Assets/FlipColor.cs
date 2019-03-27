@@ -74,8 +74,18 @@ public class FlipColor : MonoBehaviour {
 			shootRays (buttonClicked, new Vector3 (1, 1, 0)); 
 			shootRays (buttonClicked, Vector3.down); 
 		}
-		//default is square
-		else {
+
+        else if (buttonClicked.tag == "diamond")
+        {
+            shootRays(buttonClicked, new Vector3(-1, 1, 0));
+            shootRays(buttonClicked, new Vector3(1, 1, 0));
+            shootRays(buttonClicked, new Vector3(1, -1, 0));
+            shootRays(buttonClicked, new Vector3(-1, -1, 0));
+        }
+
+        //default is square
+        else
+        {
 			shootRays (buttonClicked, Vector3.up);
 			shootRays (buttonClicked, Vector3.down);
 			shootRays (buttonClicked, Vector3.left);

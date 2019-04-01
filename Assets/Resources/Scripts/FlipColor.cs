@@ -70,7 +70,12 @@ public class FlipColor : MonoBehaviour {
 			shootRays (buttonClicked, new Vector3 (1, 1, 0)); 
 			shootRays (buttonClicked, Vector3.down); 
 		}
-
+        else if (buttonClicked.tag == "utriangle")
+        {
+            shootRays(buttonClicked, Vector3.up);
+            shootRays(buttonClicked, new Vector3(-1, -1, 0));
+            shootRays(buttonClicked, new Vector3(1, -1, 0));
+        }
         else if (buttonClicked.tag == "diamond")
         {
             shootRays(buttonClicked, new Vector3(-1, 1, 0));
@@ -78,7 +83,14 @@ public class FlipColor : MonoBehaviour {
             shootRays(buttonClicked, new Vector3(1, -1, 0));
             shootRays(buttonClicked, new Vector3(-1, -1, 0));
         }
-
+        else if (buttonClicked.tag == "pentagon")
+        {
+            shootRays(buttonClicked, Vector3.left);
+            shootRays(buttonClicked, Vector3.right);
+            shootRays(buttonClicked, Vector3.down);
+            shootRays(buttonClicked, new Vector3(-1, 1, 0));
+            shootRays(buttonClicked, new Vector3(1, 1, 0));
+        }
         //default is square
         else
         {

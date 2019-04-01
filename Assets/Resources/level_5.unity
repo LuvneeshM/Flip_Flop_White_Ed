@@ -173,12 +173,12 @@ Prefab:
     - target: {fileID: 224451266152930802, guid: 4c36c22a5770c604883c44612e274274,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 75
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 224451266152930802, guid: 4c36c22a5770c604883c44612e274274,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 75
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 224451266152930802, guid: 4c36c22a5770c604883c44612e274274,
         type: 2}
@@ -210,11 +210,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114395627161828278, guid: 4c36c22a5770c604883c44612e274274,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1886856521}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c36c22a5770c604883c44612e274274, type: 2}
   m_IsPrefabAsset: 0

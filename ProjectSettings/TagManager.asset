@@ -7,6 +7,8 @@ TagManager:
   - sqaure
   - triangle
   - diamond
+  - utriangle
+  - pentagon
   layers:
   - Default
   - TransparentFX

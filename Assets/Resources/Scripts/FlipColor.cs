@@ -35,8 +35,9 @@ public class FlipColor : MonoBehaviour {
 	}
 
 	void checkAnswer(){
-		for (int i = 0; i < gameBoard.transform.childCount; i++) {
-			if (gameBoard.transform.GetChild (i).name == "black") {
+        gameBoard = GameObject.Find("Board");
+        for (int i = 0; i < gameBoard.transform.childCount; i++) {
+			if (gameBoard.transform.GetChild (i).name.Contains("black")) {
 				return;
 			}
 		}
@@ -47,12 +48,7 @@ public class FlipColor : MonoBehaviour {
 	IEnumerator delayLoadLevel(){
 		this.GetComponent<AudioSource> ().PlayOneShot (this.GetComponent<AudioSource> ().clip);
 		yield return new WaitForSeconds (3.0f);
-		var levelIndex = SceneManager.GetActiveScene ().buildIndex;
-		if (levelIndex < 5) {
-			SceneManager.LoadScene (levelIndex + 1);
-		} else {
-			SceneManager.LoadScene (0);
-		}
+        this.gameObject.GetComponent<loadSceneScript>().loadNextLevel();
 	}
 
 	void loadNextLevel(bool delay){

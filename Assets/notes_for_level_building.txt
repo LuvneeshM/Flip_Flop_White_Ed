@@ -1,0 +1,15 @@
+Notes:
+first line for every text file is the goal number of moves
+
+Shapes:
+	s = square
+	t = triangle
+	u = upside down triangle
+	d = diamond
+	p = pentagon
+
+Colors:
+	W = white
+	B = black
+
+Filler blank spaces: ZZ

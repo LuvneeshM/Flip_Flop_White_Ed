@@ -52,7 +52,7 @@ public class loadSceneScript : MonoBehaviour {
             level = 0;
         }
 
-        if (world == 5 || level == 5)
+        if (world == 5 || level == 9)
         {
             SceneManager.LoadScene("HomeScreen");
         }

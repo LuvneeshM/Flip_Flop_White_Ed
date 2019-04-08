@@ -4,11 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - sqaure
   - triangle
   - diamond
   - utriangle
   - pentagon
+  - square
+  - sqaure
   layers:
   - Default
   - TransparentFX

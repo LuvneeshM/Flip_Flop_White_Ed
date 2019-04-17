@@ -1,5 +1,6 @@
 1
-4 3
-sBsBsBsW
-sBtWsBpW
+4 4
+sWsBsBsB
+sBsWsBsB
+sBsBsWsB
 sBsBsBsW

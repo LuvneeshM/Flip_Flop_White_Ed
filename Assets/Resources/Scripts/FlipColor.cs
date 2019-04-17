@@ -42,7 +42,11 @@ public class FlipColor : MonoBehaviour {
 
 		if (Physics.Raycast (buttonClicked.transform.position, pos, out hit)) {
 			if (hit.collider != null) {
-                if(hit.collider.gameObject.tag == "square")
+                if (hit.collider.gameObject.tag == "done")
+                {
+                    hit.collider.gameObject.name = "white";
+                }
+                else if(hit.collider.gameObject.tag == "square")
                 {
                     StartCoroutine(shapeAnimation(hit.collider.gameObject, false));
                 }
@@ -173,10 +177,11 @@ public class FlipColor : MonoBehaviour {
 
     IEnumerator EndFlip()
     {
-        while (shapes_flipping)
-            yield return new WaitForSeconds(0.1f);
-
+        //while (shapes_flipping)
+        //    yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1.0f);
         bool done = checkAnswer();
+        print("checking answer " + done);
         if (done == false)
         {
             for (int i = 0; i < gameBoard.transform.childCount; i++)
@@ -236,10 +241,10 @@ public class FlipColor : MonoBehaviour {
 			shootRays (buttonClicked, Vector3.down);
 			shootRays (buttonClicked, Vector3.left);
 			shootRays (buttonClicked, Vector3.right);
-            StartCoroutine("EndFlip");
+            //StartCoroutine("EndFlip");
         }
 
-        //StartCoroutine("EndFlip");
+        StartCoroutine("EndFlip");
         for (int i = 0; i < gameBoard.transform.childCount; i++)
         {
             var child = gameBoard.transform.GetChild(i);

@@ -10,6 +10,7 @@ TagManager:
   - pentagon
   - square
   - sqaure
+  - done
   layers:
   - Default
   - TransparentFX

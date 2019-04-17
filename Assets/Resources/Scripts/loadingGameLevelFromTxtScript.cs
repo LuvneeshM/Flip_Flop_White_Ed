@@ -157,7 +157,7 @@ public class loadingGameLevelFromTxtScript : MonoBehaviour {
         else if (shape == 'Z')
         {
             toLoad = "Prefabs\\_filler";
-            name = "done";
+            name = "white";
         }
         g = (GameObject)Instantiate(Resources.Load(toLoad),board.transform);
         g.gameObject.name = name;

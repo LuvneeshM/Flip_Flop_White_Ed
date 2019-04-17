@@ -46,13 +46,13 @@ public class loadSceneScript : MonoBehaviour {
         //reached outside the world's domain
         //for now we limit the levels in a world to 4
         //go to the next world
-        if (level == 10)
+        if (level == 9)
         {
             world += 1;
             level = 0;
         }
 
-        if (world == 5 || level == 9)
+        if (world == 2 || level == 9)
         {
             SceneManager.LoadScene("HomeScreen");
         }
@@ -60,6 +60,7 @@ public class loadSceneScript : MonoBehaviour {
         else
         {
             levelSelected = "" + world + "-" + level;
+            print("Loading " + levelSelected);
             SceneManager.LoadScene("GameScreen");
         }
     }

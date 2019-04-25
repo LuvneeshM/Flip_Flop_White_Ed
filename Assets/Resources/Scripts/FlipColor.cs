@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class FlipColor : MonoBehaviour {
 
     bool shapes_flipping = true;
-
+    bool game_paused = false;
     GameObject gameBoard;
 
     public Object[] black_to_white_diamond;
@@ -27,14 +27,52 @@ public class FlipColor : MonoBehaviour {
 		gameBoard = GameObject.Find ("Board");
 	}
 
-	void swapColor(GameObject gO){
-		if (gO.GetComponent<Image> ().color == Color.black) {
-			gO.GetComponent<Image> ().color = Color.white;
-			gO.name = "white";
-		} else {
-			gO.GetComponent<Image> ().color = Color.black;
-			gO.name = "black";
-		}
+    public void pauseGame()
+    {
+        game_paused = !game_paused;
+        gameBoard.transform.parent.GetComponent<Canvas>().enabled = !game_paused;
+        
+        var pause = GameObject.Find("Pause");
+        for (int i = 0; i < pause.transform.childCount; i++)
+        {
+            GameObject Go = pause.transform.GetChild(i).gameObject;
+            Go.SetActive(game_paused);
+        }
+    }
+    public void reload()
+    {
+        SceneManager.LoadScene("GameScreen");
+    }
+
+    private void Update()
+    {
+        //restart level
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            reload();
+        }
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            pauseGame();
+        }
+    }
+
+    void swapColor(GameObject gO){
+        if(gO.name == "black")
+        {
+            gO.name = "white";
+        }
+        else
+        {
+            gO.name = "black";
+        }
+		//if (gO.GetComponent<Image> ().color == Color.black) {
+		//	//gO.GetComponent<Image> ().color = Color.white;
+		//	gO.name = "white";
+		//} else {
+		//	//gO.GetComponent<Image> ().color = Color.black;
+		//	gO.name = "black";
+		//}
 	}
 
 	void shootRays(GameObject buttonClicked, Vector3 pos){
@@ -46,22 +84,25 @@ public class FlipColor : MonoBehaviour {
                 {
                     hit.collider.gameObject.name = "white";
                 }
-                else if(hit.collider.gameObject.tag == "square")
-                {
-                    StartCoroutine(shapeAnimation(hit.collider.gameObject, false));
-                }
-                else
-                {
-                    swapColor(hit.collider.gameObject);
-
-                }
-                //StartCoroutine(shapeAnimation(hit.collider.gameObject, false));
+                //else if(hit.collider.gameObject.tag == "square")
+                //{
+                //    StartCoroutine(shapeAnimation(hit.collider.gameObject, false));
+                //}
+                //else
+                //{
+                //    swapColor(hit.collider.gameObject);
+                //}
+                StartCoroutine(shapeAnimation(hit.collider.gameObject, false));
             }
 		}
 	}
 
 	bool checkAnswer(){
         gameBoard = GameObject.Find("Board");
+        if (gameBoard == null)
+        {
+            return false;
+        }
         for (int i = 0; i < gameBoard.transform.childCount; i++) {
 			if (gameBoard.transform.GetChild (i).name.Contains("black")) {
 				return false;
@@ -177,9 +218,9 @@ public class FlipColor : MonoBehaviour {
 
     IEnumerator EndFlip()
     {
-        //while (shapes_flipping)
-        //    yield return new WaitForSeconds(0.1f);
-        yield return new WaitForSeconds(1.0f);
+        while (shapes_flipping)
+            yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(.10f);
         bool done = checkAnswer();
         print("checking answer " + done);
         if (done == false)
@@ -204,21 +245,24 @@ public class FlipColor : MonoBehaviour {
 		RaycastHit hit;
 
 		if (buttonClicked.tag == "triangle") {
-            swapColor(buttonClicked);
+            //swapColor(buttonClicked);
+            StartCoroutine(shapeAnimation(buttonClicked, true));
             shootRays (buttonClicked, new Vector3 (-1, 1, 0)); 	
 			shootRays (buttonClicked, new Vector3 (1, 1, 0)); 
 			shootRays (buttonClicked, Vector3.down); 
 		}
         else if (buttonClicked.tag == "utriangle")
         {
-            swapColor(buttonClicked);
+            //swapColor(buttonClicked);
+            StartCoroutine(shapeAnimation(buttonClicked, true));
             shootRays(buttonClicked, Vector3.up);
             shootRays(buttonClicked, new Vector3(-1, -1, 0));
             shootRays(buttonClicked, new Vector3(1, -1, 0));
         }
         else if (buttonClicked.tag == "diamond")
         {
-            swapColor(buttonClicked);
+            //swapColor(buttonClicked);
+            StartCoroutine(shapeAnimation(buttonClicked, true));
             shootRays(buttonClicked, new Vector3(-1, 1, 0));
             shootRays(buttonClicked, new Vector3(1, 1, 0));
             shootRays(buttonClicked, new Vector3(1, -1, 0));
@@ -226,7 +270,8 @@ public class FlipColor : MonoBehaviour {
         }
         else if (buttonClicked.tag == "pentagon")
         {
-            swapColor(buttonClicked);
+            //swapColor(buttonClicked);
+            StartCoroutine(shapeAnimation(buttonClicked, true));
             shootRays(buttonClicked, Vector3.left);
             shootRays(buttonClicked, Vector3.right);
             shootRays(buttonClicked, Vector3.down);
@@ -245,11 +290,7 @@ public class FlipColor : MonoBehaviour {
         }
 
         StartCoroutine("EndFlip");
-        for (int i = 0; i < gameBoard.transform.childCount; i++)
-        {
-            var child = gameBoard.transform.GetChild(i);
-            child.GetComponent<Button>().interactable = true;
-        }
+
     }
 
 	public void startGame(){

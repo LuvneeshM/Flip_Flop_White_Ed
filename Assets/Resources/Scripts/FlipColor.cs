@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class FlipColor : MonoBehaviour {
 
+    int player_moves;
     bool shapes_flipping = true;
     bool game_paused = false;
     GameObject gameBoard;
@@ -25,7 +26,8 @@ public class FlipColor : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		gameBoard = GameObject.Find ("Board");
-	}
+        player_moves = 0;
+    }
 
     public void pauseGame()
     {
@@ -37,6 +39,11 @@ public class FlipColor : MonoBehaviour {
         {
             GameObject Go = pause.transform.GetChild(i).gameObject;
             Go.SetActive(game_paused);
+        }
+        if (game_paused)
+        {
+            var currlevel = GameObject.Find("CurrLevel");
+            currlevel.GetComponent<Text>().text = loadSceneScript.levelSelected;
         }
     }
     public void reload()
@@ -114,6 +121,19 @@ public class FlipColor : MonoBehaviour {
 	}
 
 	IEnumerator delayLoadLevel(){
+        //update player best score
+        if (PlayerPrefs.HasKey(loadSceneScript.levelSelected))
+        {
+            if(PlayerPrefs.GetInt(loadSceneScript.levelSelected) > player_moves)
+            {
+                PlayerPrefs.SetInt(loadSceneScript.levelSelected, player_moves);
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt(loadSceneScript.levelSelected, player_moves);
+        }
+
 		this.GetComponent<AudioSource> ().PlayOneShot (this.GetComponent<AudioSource> ().clip);
 		yield return new WaitForSeconds (3.0f);
         this.gameObject.GetComponent<loadSceneScript>().loadNextLevel();
@@ -234,6 +254,8 @@ public class FlipColor : MonoBehaviour {
     }
 
     public void flipFlop(GameObject buttonClicked){
+        player_moves += 1;
+
         shapes_flipping = true;
         //loop through and disable all buttons
         for (int i = 0; i < gameBoard.transform.childCount; i++)

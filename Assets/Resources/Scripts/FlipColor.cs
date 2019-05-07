@@ -10,7 +10,18 @@ public class FlipColor : MonoBehaviour {
     int player_moves;
     bool shapes_flipping = true;
     bool game_paused = false;
+    
     GameObject gameBoard;
+
+    public GameObject endText;
+    public GameObject moveCountText;
+
+    private AudioSource audioSource;
+    public AudioClip[] cardflip;
+    public AudioClip winClip;
+    public AudioClip opWinClip;
+    public AudioClip hoverClip;
+    private AudioClip cardflipClip;
 
     public Object[] black_to_white_diamond;
     public Object[] black_to_white_pentagon;
@@ -26,7 +37,9 @@ public class FlipColor : MonoBehaviour {
     // Use this for initialization
     void Start () {
 		gameBoard = GameObject.Find ("Board");
+        audioSource = this.GetComponent<AudioSource>();
         player_moves = 0;
+        toggleMoveCountText(GameObject.Find("BGMusic").GetComponent<liveForever>().showMoveCountText);
     }
 
     public void pauseGame()
@@ -50,7 +63,15 @@ public class FlipColor : MonoBehaviour {
     {
         SceneManager.LoadScene("GameScreen");
     }
-
+    public void toggleMoveCount()
+    {
+        GameObject.Find("BGMusic").GetComponent<liveForever>().togglMoveCount();
+    }
+    public void toggleMoveCountText(bool val)
+    {
+        moveCountText.SetActive(val);
+    }
+    
     private void Update()
     {
         //restart level
@@ -134,8 +155,36 @@ public class FlipColor : MonoBehaviour {
             PlayerPrefs.SetInt(loadSceneScript.levelSelected, player_moves);
         }
 
-		this.GetComponent<AudioSource> ().PlayOneShot (this.GetComponent<AudioSource> ().clip);
-		yield return new WaitForSeconds (3.0f);
+        endText.SetActive(true);
+        
+
+        if(player_moves < 11)
+        {
+            audioSource.clip = opWinClip;
+            endText.transform.GetChild(0).gameObject.GetComponent<Text>().text = "★☆Congrats☆★";
+        }
+        else
+        {
+            audioSource.clip = winClip;
+            if(player_moves < 20)
+            {
+                endText.transform.GetChild(0).gameObject.GetComponent<Text>().text = "★Good Job★";
+            }
+            else
+            {
+                endText.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Well Done!";
+            }
+        }
+
+        if (GameObject.Find("BGMusic").GetComponent<liveForever>().soundFx)
+        {
+            audioSource.PlayOneShot(audioSource.GetComponent<AudioSource>().clip);
+            yield return new WaitForSeconds(1.75f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(1.00f);
+        }
         this.gameObject.GetComponent<loadSceneScript>().loadNextLevel();
 	}
 
@@ -255,6 +304,7 @@ public class FlipColor : MonoBehaviour {
 
     public void flipFlop(GameObject buttonClicked){
         player_moves += 1;
+        moveCountText.GetComponent<Text>().text = "Moves: " + player_moves;
 
         shapes_flipping = true;
         //loop through and disable all buttons
@@ -264,9 +314,17 @@ public class FlipColor : MonoBehaviour {
             child.GetComponent<Button>().interactable = false;
         }
 
-		RaycastHit hit;
+        if (GameObject.Find("BGMusic").GetComponent<liveForever>().soundFx)
+        {
+            int index = Random.Range(0, cardflip.Length);
+            cardflipClip = cardflip[index];
+            audioSource.clip = cardflipClip;
+            audioSource.PlayOneShot(audioSource.GetComponent<AudioSource>().clip);
+        }
 
-		if (buttonClicked.tag == "triangle") {
+        RaycastHit hit;
+
+        if (buttonClicked.tag == "triangle") {
             //swapColor(buttonClicked);
             StartCoroutine(shapeAnimation(buttonClicked, true));
             shootRays (buttonClicked, new Vector3 (-1, 1, 0)); 	
